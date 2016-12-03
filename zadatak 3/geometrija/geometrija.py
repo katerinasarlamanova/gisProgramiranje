@@ -4,7 +4,7 @@ import math
 import copy
 
 class Tacka:
-    x = 0  # Instancne promenljive x i y (koordinate tačke)
+    x = 0
     y = 0
 
     def __init__(self, x, y):    # Konstruktor na osnovu zadatih x i y koordinata tačke
@@ -17,7 +17,8 @@ class Tacka:
     def pomeranje(self, x_pom, y_pom):   # Metod za pomeranje Tacke po x i y osi
         self.x = x_pom + self.x
         self.y = y_pom + self.y
-        return self.x, self.y
+        tacka = Tacka(self.x, self.y)
+        return tacka
 
     def rastojanje(self):        # Metod za računanje rastojanja do zadate tačke
         x = self.x
@@ -28,7 +29,7 @@ class Tacka:
 
 
 class Duz:
-    x1 = 0     # Instancne promenljive, početna i krajnja tačka duži
+    x1 = 0
     y1 = 0
     x2 = 0
     y2 = 0

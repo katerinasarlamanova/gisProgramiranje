@@ -2,7 +2,7 @@
 
 import math
 
-print("Algoritam za rješavanje kvadratne jednadžbe ax^2 + bx + c = 0")
+print("Algoritam za rješavanje kvadratne jednadčine ax^2 + bx + c = 0")
 
 def main():
     x1 = 0

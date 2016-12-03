@@ -8,8 +8,8 @@ def main():
     # Kreiranje objekata
     sfera = Sfera(4.00, 0, 0, 0)
     globus = Sfera(12, 1.0, 1.0, 1.0)
-    bilijarska_lopta = Sfera(10.0, 10.0, 0.0, 0)
-    jedinicna_sfera = Sfera(1, 0, 0, 0)
+    bilijarska_lopta = Sfera.sfxyz(10.0, 10.0, 0.0)
+    jedinicna_sfera = Sfera.jedinicna()
 
     print "\nBroj kreiranih objkata je: ", Sfera.brojKreiranihObjekata()
     print "\nZapremina sfere je: ", sfera.zapremina()
