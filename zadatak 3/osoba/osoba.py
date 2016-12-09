@@ -3,25 +3,19 @@
 from datetime import date
 
 class Osoba():
-    ime = None                      # Podatke o osobi
-    prezime = None
-    datum = date(1,1,1)
-    adresa = None
 
-    def __init__(self, ime, prezime, datum, adresa):       # Konstruktor
+    def __init__(self, ime, prezime, y, m, d, adresa):       # Konstruktor
         self.ime = ime
         self.prezime = prezime
-        self.datum = datum
+        self.datum = date(y,m,d)
         self.adresa = adresa
 
 
 class Dzak(Osoba):
-    skola = None              # Podatke o đaku
-    odd = None
     godina = 0
 
-    def __init__(self,ime, prezime, datum, adresa, skola, odd, godina):    # Konstruktor
-        Osoba.__init__(self, ime, prezime, datum, adresa)
+    def __init__(self,ime, prezime, y, m, d, adresa, skola, odd, godina):    # Konstruktor
+        Osoba.__init__(self, ime, prezime, y, m, d, adresa)
         self.skola = skola
         self.odd = odd
         self.godina = godina
@@ -42,26 +36,23 @@ class Dzak(Osoba):
 
 
 class Zaposlen(Osoba):
-    kompanija = None                # Podatke o zaposlen
-    department = None
     dani = []                       # Lista ukupan broj dani kojih je radio
+    radio = []
 
-    def __init__(self, ime, prezime, datum, adresa, kompanija, department):    # Konstruktor
-        Osoba.__init__(self, ime, prezime, datum, adresa)
+    def __init__(self, ime, prezime, y, m, d, adresa, kompanija, department):    # Konstruktor
+        Osoba.__init__(self, ime, prezime, y, m, d, adresa)
         self.kompanija = kompanija
         self.department = department
 
     @classmethod                 # Metod koji dodaje periode u kome je zaposlen radio
     def radi(cls, y, m, d, y1, m1, d1):
-        radio = []
         cls.poceo = date(y,m,d)
         cls.prekinuo = date(y1,m1,d1)
-        radio.append(cls.poceo)
-        radio.append(cls.prekinuo)
+        Zaposlen.radio.append(cls.poceo)
+        Zaposlen.radio.append(cls.prekinuo)
         ukupno = (cls.prekinuo - cls.poceo).days + 1
-        radio.append(ukupno)
+        Zaposlen.radio.append(ukupno)
         Zaposlen.dani.append(ukupno)
-        print "Zaposlenje bio u radnom odnosu u periodu od", radio
 
     def info(self):                             # Informacije o zaposlen
         print "\nZaposlen", self.ime, self.prezime, "datum rođenja", self.datum, "kucna adresa", self.adresa, \
@@ -71,4 +62,5 @@ class Zaposlen(Osoba):
     def staz(self):                # Metod koji računa ukupan broj meseca kojih je radio
         dani = self.dani
         self.meseci = float(sum(dani) / 30.0)
-        print "Zaposljen ima staz:", (self.meseci), "meseci"
+        print "Zaposlenje bio u radnom odnosu u periodu od", Zaposlen.radio
+        print "Zaposljen ima staz:", self.meseci, "meseci"

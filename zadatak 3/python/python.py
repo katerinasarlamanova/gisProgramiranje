@@ -4,57 +4,82 @@ import random
 import math
 import itertools
 
-def poligon():
-    operator = raw_input("Unesite ime, prezime operatora i e-mail: ")
-    c = int(input("Unesite broj tacaka koje formiraju poligon (najmanje tri): "))
-    i = 0
-    povrs = []          # Skup (pseudo)slučajnih tačaka
-    while (i < c):      # Generisanje random tacke
-        x = random.randint(0, 100)
-        y = random.randint(0, 100)
-        z = random.randint(0, 100)
-        tacka = (x, y, z)
-        povrs.append(tacka)
-        i = i + 1
+class Povrs:
 
-    def areaPoligona(povrs):     # Funkcija koja računa površina poligona
-        n = len(povrs)
-        area = 0.0
+    ime = raw_input("Ime operatera: ")
+    prezime = raw_input("Prezime operatera: ")
+    mail = raw_input("E-mail operatera: ")
+
+    metadataO = []                                 # Cuvaju se podaci o operateru
+    metadataO.append(ime)
+    metadataO.append(prezime)
+    metadataO.append(mail)
+
+    def __init__(self, c):
+        self.c = c
+        self.i = 0
+        self.povrs = []                           # Skup(pseudo)slučajnih tačaka
+        while (self.i < self.c):                  # Generisanje random tacke
+            self.x = random.randint(0, 100)
+            self.y = random.randint(0, 100)
+            self.z = random.randint(0, 100)
+            self.tacka = (self.x, self.y, self.z)
+            self.povrs.append(self.tacka)
+            self.i = self.i + 1
+
+    def br(self):                                 # Broj tačaka u polionu
+        return self.i
+
+    def areaPoligona(self):                       # Funkcija koja računa površina poligona
+        n = len(self.povrs)
+        self.area = 0.0
         for i in range(n):
             j = (i + 1) % n
-            area += povrs[i][0] * povrs[j][1]
-            area -= povrs[j][0] * povrs[i][1]
-        area = abs(area) / 2.0
-        return area
+            self.area += self.povrs[i][0] * self.povrs[j][1]
+            self.area -= self.povrs[j][0] * self.povrs[i][1]
+        self.area = abs(self.area) / 2.0
+        return self.area
 
-    def rastojanje(povrs):      # Funkcija koja računa rastojanje između dve najbliže tacke u poligonu
-        p0, p1 = povrs
+    def centroid(self):                                         # Sredina poligona
+        self.centroide = ((sum(d[0] for d in self.povrs)) / len(self.povrs), (sum(d[1] for d in self.povrs)) / len(self.povrs))
+        return self.centroide
+
+    def max(self):                                              # Maksimalna tačka
+        self.maksimalnu = max(self.povrs, key=lambda item: item[0:1])
+        return self.maksimalnu
+
+    def min(self):                                              # Minimalna tačka
+        self.minimalnu = min(self.povrs, key=lambda item: item[0:1])
+        return self.minimalnu
+
+    def index(self):                                 # Funkcija koja ispisuje indekse za tače u poligonu
+        self.metadata = [(ix, self.povrs[ix]) for ix in range(len(self.povrs))]
+        return self.metadata
+
+    def rastojanje(self):                            # Funkcija koja računa rastojanje između dve tačke u poligonu
+        p0 = self.povrs
+        p1 = self.povrs
         return math.sqrt((p0[0] - p1[0]) ** 2 + (p0[1] - p1[1]) ** 2)
 
-    def elevacija(parZ):        # Funkcija koja računa elevacija između dve tacke u poligonu (najniža i najviša)
-        p0, p1 = parZ
+    def minPar(self):
+        self.minP = min(itertools.combinations(self.povrs, 2))
+        return self.minP
+
+    def minRastojanje(self):                       # Funkcija koja računa rastojanje između dve najbliže tacke u poligonu
+        p0 = self.minP[0]
+        p1 = self.minP[1]
+        return math.sqrt((p0[0] - p1[0]) ** 2 + (p0[1] - p1[1]) ** 2)
+
+    def elevacija(self):                           # Funkcija koja računa elevacija između dve tacke u poligonu
+        p0, p1 = self.povrs
         return (p0[2] - p1[2])
 
-    area = areaPoligona(povrs)
-    centroide = ((sum(d[0] for d in povrs)) / len(povrs), (sum(d[1] for d in povrs)) / len(povrs))
-    maksimalnu = max(povrs, key=lambda item: item[0:1])
-    minimalnu = min(povrs, key=lambda item: item[0:1])
-    metadata  = [(ix, povrs[ix]) for ix in range(len(povrs))]
+    def maxPar(self):
+        self.maxP = max(itertools.combinations(self.povrs, 2))
+        return self.maxP
 
-    minPar = min(itertools.combinations(povrs, 2), key=rastojanje)
-    minRastojanje = rastojanje(minPar)
+    def maxElevacija(self):                      # Funkcija koja računa elevacija između dve tacke u poligonu (najniža i najviša)
+        p0 = self.maxP[0]
+        p1 = self.maxP[1]
+        return (p0[2] - p1[2])
 
-    parZ = max(itertools.combinations(povrs, 2), key=elevacija)
-    zRastojanje = elevacija(parZ)
-
-    print "\n", povrs
-    print "Broj tacaka u poligonu je:", i
-    print "\nPovršina poligona je:", area
-    print "Sredina poligona je:", centroide
-    print "\nMaksimalne vrednosti koordinata tačaka površi:", maksimalnu
-    print "Minimalne vrednosti koordinata tačaka površi:", minimalnu
-    print "\nTacke sa odgovarajuce indekse kao Id-ove:\n", metadata
-    print "\nDve najbliže tacke su", minPar, "a rastojanje mešu njima je", minRastojanje
-    print "Elevacija između dve tacke, najniža i najviša", parZ, "je", zRastojanje
-    print "\nPovrš analizira operator: ", operator
-    return ""

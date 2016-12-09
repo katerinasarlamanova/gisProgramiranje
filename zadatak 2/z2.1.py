@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from math import factorial
-
 def factorial(n):
     if n < 0:
         return 0

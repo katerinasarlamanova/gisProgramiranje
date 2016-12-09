@@ -29,10 +29,6 @@ class Tacka:
 
 
 class Duz:
-    x1 = 0
-    y1 = 0
-    x2 = 0
-    y2 = 0
     tacka1 = Tacka(Tacka.x, Tacka.y)
     tacka2 = Tacka(Tacka.x, Tacka.y)
 

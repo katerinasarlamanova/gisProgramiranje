@@ -2,7 +2,6 @@
 
 class Sfera:
     broj = 0  # Klasna promenljiva koja broji objekte klase
-    poluprecnik = 0
 
     @classmethod
     def jedinicna(cls):           # Konstruktor jedinične sfere u koordinatni pocetak 0
