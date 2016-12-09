@@ -23,23 +23,15 @@ def main():
     print "\nKreiranje nov zaposlen preko unos podataka"
     i = raw_input("Ime: ")
     p = raw_input("Prezme: ")
-    y = int(input("Godina: "))
-    m = int(input("Mesec: "))
-    d = int(input("Den: "))
+    y = int(input("Godina rođenja: "))
+    m = int(input("Mesec rođenja: "))
+    d = int(input("Den rođenja: "))
     a = raw_input("Adresa: ")
     k = raw_input("Kompanija: ")
     dep = raw_input("Department: ")
-    r1 = input("Unesite godina kad se zaposlio: ")
-    r2 = input("Unesite mesec kad se zaposlio: ")
-    r3 = input("Unesite dan kad se zaposlio: ")
-    r4 = input("Unesite godina kad je prekinuo: ")
-    r5 = input("Unesite mesec kad je prekinuo: ")
-    r6 = input("Unesite dan kad je prekinuo: ")
 
     o = Zaposlen(i, p, y, m, d, a, k, dep)
     o.info()
-    o.radi(r1, r2, r3, r4, r5, r6)
-    o.staz()
 
 if __name__ == '__main__':
     main()

@@ -2,9 +2,9 @@
 
 from datetime import date
 
-class Osoba():
+class Osoba:
 
-    def __init__(self, ime, prezime, y, m, d, adresa):       # Konstruktor
+    def __init__(self, ime, prezime, y, m, d, adresa):
         self.ime = ime
         self.prezime = prezime
         self.datum = date(y,m,d)
@@ -12,55 +12,54 @@ class Osoba():
 
 
 class Dzak(Osoba):
-    godina = 0
 
-    def __init__(self,ime, prezime, y, m, d, adresa, skola, odd, godina):    # Konstruktor
+    def __init__(self, ime, prezime, y, m, d, adresa, skola, odd, godina):
         Osoba.__init__(self, ime, prezime, y, m, d, adresa)
         self.skola = skola
         self.odd = odd
         self.godina = godina
 
-    def info(self):               # Informacije o đaku
+    def info(self):                    # Informacije o đaku
         print "\nĐak", self.ime, self.prezime, "datum rođenja", self.datum, "kucna adresa", self.adresa,\
             "upisao je", self.godina, "godinu u odeljenje", self.odd, "u školi", self.skola
         return ""
 
-    def odelenje(self):           # Informacija u razred škole đak trenutno pohađa
-        print "Đak ide u", self.odd, "odelenje"
+    def odelenje(self):                # Metod koji vrača odelenje đaku
+        return self.odd
 
-    def obnovio(self):            # Metod koji računa da li je možda obnovio neku godinu tokom školovanja
-        if (self.godina > 1):
-            print "Đak je obnovio godinu po", self.godina, "put"
+    def obnovio(self):                 # Metod koji računa dali je đak obnovio godinu
+        if self.godina > 1:
+            print "Dzak idu u razred", self.odd, "po ", self.godina, "put"
         else:
             return 0
 
 
 class Zaposlen(Osoba):
-    dani = []                       # Lista ukupan broj dani kojih je radio
-    radio = []
+    dani = []
 
-    def __init__(self, ime, prezime, y, m, d, adresa, kompanija, department):    # Konstruktor
+    def __init__(self, ime, prezime, y, m, d, adresa, kompanija, department):
         Osoba.__init__(self, ime, prezime, y, m, d, adresa)
         self.kompanija = kompanija
         self.department = department
 
-    @classmethod                 # Metod koji dodaje periode u kome je zaposlen radio
+    @classmethod
     def radi(cls, y, m, d, y1, m1, d1):
+        radio = []
         cls.poceo = date(y,m,d)
         cls.prekinuo = date(y1,m1,d1)
-        Zaposlen.radio.append(cls.poceo)
-        Zaposlen.radio.append(cls.prekinuo)
+        radio.append(cls.poceo)
+        radio.append(cls.prekinuo)
         ukupno = (cls.prekinuo - cls.poceo).days + 1
-        Zaposlen.radio.append(ukupno)
+        radio.append(ukupno)
         Zaposlen.dani.append(ukupno)
+        print "Zaposlenje bio u radnom odnosu u periodu od", radio
+
+    def staz(self):                # Metod koji računa ukupan broj meseca kojih je radio
+        dani = self.dani
+        self.meseci = float(sum(dani) / 30.0)
+        print "Zaposljen ima staz:", (self.meseci), "meseci"
 
     def info(self):                             # Informacije o zaposlen
         print "\nZaposlen", self.ime, self.prezime, "datum rođenja", self.datum, "kucna adresa", self.adresa, \
             "radi u", self.kompanija, "department", self.department, "\n"
         return ""
-
-    def staz(self):                # Metod koji računa ukupan broj meseca kojih je radio
-        dani = self.dani
-        self.meseci = float(sum(dani) / 30.0)
-        print "Zaposlenje bio u radnom odnosu u periodu od", Zaposlen.radio
-        print "Zaposljen ima staz:", self.meseci, "meseci"
