@@ -24,36 +24,19 @@ def main():
     print "Row:	", memory
     print "\n"
 
-    cursor = conn.cursor()
-    cursor2 = conn.cursor()
-    cursor3 = conn.cursor()
-
+    cursor = conn.cursor('cursor_unique_name', cursor_factory=psycopg2.extras.DictCursor)
     try:
-        cursor.execute("""SELECT * from parcela""")
-        cursor2.execute("""SELECT * FROM tackeparcela""")
-        cursor3.execute("""SELECT * FROM tacka""")
-
+        cursor.execute("""SELECT * from nacinkoriscenja""")
     except:
-        print "Neuspesna selekcija iz parcela"
+        print "Neuspesna selekcija iz nacinkoriscenja"
 
     rows = cursor.fetchall()
-    rows2 = cursor2.fetchall()
-    rows3 = cursor3.fetchall()
-    print "\nRows  ID  Oznaka   Koršcenja   Kolekcija tačaka\n"
+    print "\nRows: \n"
     row_count = 0
-
     for row in rows:
-        tacke = []
         row_count += 1
-        for ra in rows3:
+        print row_count, "   ", row[0], "|", row[1]
 
-            for r in rows2:
-                par = r[1]
-
-                if int(row[0]) == int(par) and int(r[2]) == int(ra[0]):
-                    tacke.append(ra[3])
-
-        print row_count, "   ", row[0], " | ", row[1], " | ", row[2], " | ", tacke
 
 if __name__ == "__main__":
     main()

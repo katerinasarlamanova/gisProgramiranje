@@ -2,8 +2,8 @@
 #!/usr/bin/env python
 
 from detalnjaTacka import *
-import psycopg2
-import psycopg2.extras
+import numpy as np
+
 
 class Poligon:
 
@@ -91,56 +91,3 @@ class Parcela(Poligon):
     def nacin(self, nacin):
         self._nacin = nacin
 
-
-def main():
-
-    p1 = DetalnjaTacka(3, "t2", 1, (2, 22))
-    p2 = DetalnjaTacka(4, "t2", 2, (5, 6))
-    p3 = DetalnjaTacka(5, "t2", 2, (2, 20))
-    print "\n", p1
-    print "\n", p2
-    print "\n", p3
-
-    par = Parcela(2, 8, "1881/1", 112)
-
-    par.dodajTacka(p1)
-    par.dodajTacka(p2)
-    par.dodajTacka(p3)
-    print "\n", par
-
-    conn_string = "dbname='python' user='postgres' host='localhost' password='teodora2001'"
-    print "\nConnecting to database\n	->%s" % (conn_string)
-
-    conn = psycopg2.connect(conn_string)
-
-    cursor = conn.cursor()
-
-    query = ("""INSERT INTO parcela (id_parcela, brojparcele, nacinkoriscenja) VALUES (%s, %s, %s);""")
-    data = (str(par.idp), str(par.oznaka), str(par.nacin))
-
-    try:
-        cursor.execute(query, data)
-        conn.commit()
-
-    except:
-         print "\nNeuspesno ubacivanje podataka u tabelu parcela"
-
-    m = len(par.povrs)
-    for i in range(m):
-        query2 = ("""INSERT INTO tacka (id_tacka, oznaka, nacinstabilizacija, koordinate) VALUES (%s, %s, %s, %s);""")
-        data2 = (str(par.povrs[i].id), str(par.povrs[i].oznaka), str(par.povrs[i].stabil), str(par.povrs[i].koor))
-
-        join = ("""INSERT INTO tackeparcela (id_parcela, id_tacka) VALUES (%s, %s);""")
-        ids = (str(par.idp), str(par.povrs[i].id))
-
-        try:
-            cursor.execute(query2, data2)
-            cursor.execute(join, ids)
-            conn.commit()
-
-        except: #(Exception, psycopg2.DatabaseError) as error: print(error)
-            print "\nNeuspesno ubacivanje podataka u tabelu tacka"
-            print "\nNeuspesno ubacivanje podataka u tabelu tackeparcela"
-
-if __name__ == "__main__":
-    main()
