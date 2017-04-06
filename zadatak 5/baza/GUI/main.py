@@ -144,7 +144,6 @@ class ExampleApp(QtGui.QMainWindow, Ui_MainWindow):
                 self.label_18.setText(str(xx))
                 self.label_15.setText(str(yy))
                 self.label_17.setText(str(t.wkt))
-                #self.label_16.setText(str(t.wkt))
 
                 list = []
                 for r in rows2:
